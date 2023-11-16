@@ -90,7 +90,6 @@ class StoryList {
       headers: {"Content-Type": "application/json"}
     });
     console.log('addStory storyResponse',storyResponse);
-    console.log('addStory storyResponse',storyResponse);
 
     const storyReturnObject = await storyResponse.json();
     console.log('storyReturnObject!?', storyReturnObject);

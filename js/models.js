@@ -78,11 +78,10 @@ class StoryList {
     // const storyString = JSON.stringify(newStory);
     // console.log('addStory storyString', storyString);
 
-    //TODO: try writing the body as an actual object and then stringify
     console.log('addStory user', user);
     const body = {
             token: user.loginToken,
-            story: newStory //FIXME: pretty sure our error is herem ee
+            story: newStory
           }
 
     const storyResponse = await fetch(`${BASE_URL}/stories/`, {

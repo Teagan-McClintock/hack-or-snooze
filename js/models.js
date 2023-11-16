@@ -225,4 +225,21 @@ class User {
       return null;
     }
   }
+
+  /**for current user, make API call to add the passed-in story to that
+   * user's array of favorites */
+  async addFavorite(story) {
+    const body = {token: this.loginToken};
+
+    console.log("stringify body ", JSON.stringify(body));
+
+    const response = await fetch(
+        `${BASE_URL}/users/${this.username}/favorites/${story.storyId}`, {
+        method: "POST",
+        body: JSON.stringify(body),
+        headers: {"Content-Type": "application/json"}
+      });
+    console.log("response ",response);
+    console.log("reponse.json ", await response.json());
+  }
 }

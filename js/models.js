@@ -75,14 +75,28 @@ class StoryList {
 
   async addStory( user, newStory ) {
     // UNIMPLEMENTED: complete this function!
-    const storyString = JSON.stringify(newStory);
-    const storyResponse = await fetch(`${BASE_URL}/stories`, {
+    // const storyString = JSON.stringify(newStory);
+    // console.log('addStory storyString', storyString);
+
+    //TODO: try writing the body as an actual object and then stringify
+    console.log('addStory user', user);
+    const body = {
+            token: user.loginToken,
+            story: newStory //FIXME: pretty sure our error is herem ee
+          }
+
+    const storyResponse = await fetch(`${BASE_URL}/stories/`, {
       method: "POST",
-      body: `{"token": "${user.token}", "story": ${storyString} }`,
+      body: JSON.stringify(body),
       headers: {"Content-Type": "application/json"}
     });
-    const storyReturnObject = storyResponse.json();
+    console.log('addStory storyResponse',storyResponse);
+    console.log('addStory storyResponse',storyResponse);
+
+    const storyReturnObject = await storyResponse.json();
+    console.log('storyReturnObject!?', storyReturnObject);
     const { story } = storyReturnObject;
+    console.log('story!?', story);
     const storyToBeReturned = new Story(story);
     return storyToBeReturned;
   }

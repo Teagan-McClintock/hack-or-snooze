@@ -46,8 +46,9 @@ function generateStoryMarkup(story) {
 }
 
 
-/**Takes in a story and identifies whether it is a favorite of the current
- * user */
+/**Takes in a story and returns true/false based on whether it is a favorite
+ * of the current user
+ */
 
 function isFav(story) {
   for (let favStory of currentUser.favorites) {
@@ -59,12 +60,13 @@ function isFav(story) {
 }
 
 /**Generates and returns html text for favorite and remove favorite buttons.
- * Depending on the value of isFav, either the favorite or remove favorite button
- * will be marked as a hidden class
+ * Takes a boolean as an input.
+ * Depending on the value of the input, either the favorite (for true) or
+ * remove favorite (for false) button will be marked as a hidden class.
 */
 
-function generateFavoriteButtons(isFav) {
-  if (isFav) {
+function generateFavoriteButtons(isFavorite) {
+  if (isFavorite) {
     return $(`
    <button class = "favorite-button hidden">Favorite</button>
    <button class = "remove-favorite-button">Remove Favorite</button>`);
@@ -87,10 +89,6 @@ function putStoriesOnPage() {
     const isFavorite = isFav(story);
     const $favButtons = generateFavoriteButtons(isFavorite);
     $story.append($favButtons);
-    // if the story is a favorite
-    //  hide favorite button
-    //  else hide remove fav button
-    // toggleButtons();
     console.log($favButtons);
 
     $allStoriesList.append($story);
@@ -105,8 +103,8 @@ function putFavStoriesOnPage() {
   $favStoriesList.empty();
   for (let story of currentUser.favorites) {
     const $story = generateStoryMarkup(story);
-    const isFav = isFav(story);
-    const $favButtons = generateFavoriteButtons(isFav);
+    const isFavorite = isFav(story);
+    const $favButtons = generateFavoriteButtons(isFavorite);
     $story.append($favButtons);
     $favStoriesList.append($story);
   }
@@ -115,14 +113,17 @@ function putFavStoriesOnPage() {
 
 $storiesContainer.on("click", ".favorite-button", handleFavoriteClick);
 
-/** Makes a call to add favorite and update currentUser from API response*/
+/** Makes a call to add favorite and update currentUser from API response.
+ * Also adds a star and toggles the buttons' visibility.
+*/
 async function handleFavoriteClick(evt) {
-  //TODO: want to add hide button when appropriate
   const $clickTarget = $(evt.target);
   const $storyTarget = $clickTarget.closest("li");
+  const $favStar = $('<i class="bi bi-star-fill"></i>');
 
   toggleButtons($storyTarget);
 
+  $storyTarget.append($favStar);
   const storyId = $storyTarget.attr("id");
   const story = await Story.getStoryFromId(storyId);
   const userJson = await currentUser.addFavorite(story);
@@ -131,9 +132,10 @@ async function handleFavoriteClick(evt) {
 
 $storiesContainer.on("click", ".remove-favorite-button", handleRemoveFavoriteClick);
 
-/** Makes a call to add favorite */
+/** Makes a call to remove favorite and update currentUser from API response.
+ * Also toggles the buttons' visibility.
+*/
 async function handleRemoveFavoriteClick(evt) {
-  //TODO: want to add hide button when appropriate
   const $clickTarget = $(evt.target);
   const $storyTarget = $clickTarget.closest("li");
 
@@ -145,7 +147,10 @@ async function handleRemoveFavoriteClick(evt) {
   refreshUser(userJson);
 }
 
-/** takes a jQuery object favButtons and toggles */
+/** takes a jQuery object for a list item and toggles the visibility of the
+ * favorite/remove favorite buttons tied to it. Also removes a star if one is
+ * found.
+ */
 function toggleButtons($li) {
 
   const $buttons = $li.find('button');
@@ -162,6 +167,9 @@ function toggleButtons($li) {
       $button.addClass('hidden');
     }
   }
+
+  const $star = $li.find("i");
+  $star.remove();
 
 }
 

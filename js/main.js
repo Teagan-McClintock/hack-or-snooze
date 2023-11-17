@@ -20,7 +20,7 @@ const $navStorySubmit = $("#story-submit");
 const $navFavStoriesButton = $("#fav-stories-button");
 
 const $storySubmitForm = $("#story-submit-form");
-const $storySubmitFields = $('.story-submit')
+const $storySubmitFields = $('.story-submit');
 
 /** To make it easier for individual components to show just themselves, this
  * is a useful function that hides pretty much everything on the page. After

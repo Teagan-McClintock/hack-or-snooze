@@ -235,12 +235,7 @@ class User {
     }
   }
 
-  /**for current user, make API call to get most recent data for that user.
-   * This will allow us to keep their favorite list up to date
-   */
-  async refreshUser(){
-    //TODO: Write this
-  }
+
 
   /**for current user, make API call to add the passed-in story to that
    * user's array of favorites */
@@ -254,9 +249,11 @@ class User {
       headers: { "Content-Type": "application/json" }
     });
 
+    //use the response from earlier get the user object from that, pass it
+    // to a dedicated function which will refresh the currentuser state
+    let responseJson = await response.json();
+    return responseJson;
     //does't need to return anything because API handles the actual favoriting
-    console.log("response ", response);
-    console.log("reponse.json ", await response.json());
   }
 
   /**for current user, make API call to remove the passed-in story from that
@@ -272,8 +269,8 @@ class User {
     });
 
     //does't need to return anything because API handles the actual favoriting
-    console.log("response ", response);
-    console.log("reponse.json ", await response.json());
+    let responseJson = await response.json();
+    return responseJson;
   }
 }
 

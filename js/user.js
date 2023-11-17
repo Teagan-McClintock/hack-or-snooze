@@ -82,6 +82,14 @@ async function checkForRememberedUser() {
   currentUser = await User.loginViaStoredCredentials(token, username);
 }
 
+/** Update the currentUser global variable with the latest API user state */
+
+async function refreshUser(responseJson){
+  debugger;
+  const userData = responseJson.user;
+  currentUser.favorites = userData.favorites;
+}
+
 /** Sync current user information to localStorage.
  *
  * We store the username/token in localStorage so when the page is refreshed

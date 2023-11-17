@@ -76,14 +76,15 @@ function putFavStoriesOnPage(){
 
 $storiesContainer.on("click", ".favorite-button", handleFavoriteClick);
 
-/** Makes a call to add favorite */
+/** Makes a call to add favorite and update currentUser from API response*/
 async function handleFavoriteClick(evt){
   //TODO: want to add hide button when appropriate
   const $clickTarget = $(evt.target);
   const $storyTarget = $clickTarget.closest("li");
   const storyId = $storyTarget.attr("id");
   const story = await Story.getStoryFromId(storyId);
-  await currentUser.addFavorite(story);
+  const userJson = await currentUser.addFavorite(story);
+  refreshUser(userJson);
 }
 
 $storiesContainer.on("click", ".remove-favorite-button", handleRemoveFavoriteClick);
@@ -95,7 +96,8 @@ async function handleRemoveFavoriteClick(evt){
   const $storyTarget = $clickTarget.closest("li");
   const storyId = $storyTarget.attr("id");
   const story = await Story.getStoryFromId(storyId);
-  await currentUser.removeFavorite(story);
+  const userJson = await currentUser.removeFavorite(story);
+  refreshUser(userJson);
 }
 
 $storySubmitForm.on('submit', handleStorySubmit);

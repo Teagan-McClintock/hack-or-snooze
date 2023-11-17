@@ -29,12 +29,12 @@ class Story {
   }
 
   /** Takes in a storyID and returns the story object associated with that ID */
-  static getStoryFromId(storyId){
+  static async getStoryFromId(storyId){
     console.log("passed-in ID ", storyId);
-    const filteredToFavStory = storyList.stories.filter(
-      story => story.storyId === storyId);
-    console.log("story from ID ", filteredToFavStory[0]);
-    return filteredToFavStory[0];
+    const response = await fetch(`${BASE_URL}/stories/${storyId}`);
+    const storyResponse = await response.json();
+    const story = new Story(storyResponse.story);
+    return story;
   }
 }
 
@@ -233,6 +233,13 @@ class User {
       console.error("loginViaStoredCredentials failed", err);
       return null;
     }
+  }
+
+  /**for current user, make API call to get most recent data for that user.
+   * This will allow us to keep their favorite list up to date
+   */
+  async refreshUser(){
+    //TODO: Write this
   }
 
   /**for current user, make API call to add the passed-in story to that

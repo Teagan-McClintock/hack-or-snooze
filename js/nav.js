@@ -53,6 +53,7 @@ function updateNavOnLogin() {
 $navFavStoriesButton.on("click", handleShowFavorites);
 
 function handleShowFavorites(evt) {
+  debugger;
   evt.preventDefault();
   hidePageComponents();
   putFavStoriesOnPage();

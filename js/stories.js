@@ -82,7 +82,7 @@ async function handleFavoriteClick(evt){
   const $clickTarget = $(evt.target);
   const $storyTarget = $clickTarget.closest("li");
   const storyId = $storyTarget.attr("id");
-  const story = Story.getStoryFromId(storyId);
+  const story = await Story.getStoryFromId(storyId);
   await currentUser.addFavorite(story);
 }
 
@@ -94,7 +94,7 @@ async function handleRemoveFavoriteClick(evt){
   const $clickTarget = $(evt.target);
   const $storyTarget = $clickTarget.closest("li");
   const storyId = $storyTarget.attr("id");
-  const story = Story.getStoryFromId(storyId);
+  const story = await Story.getStoryFromId(storyId);
   await currentUser.removeFavorite(story);
 }
 

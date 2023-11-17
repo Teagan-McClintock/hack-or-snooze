@@ -54,7 +54,7 @@ function putStoriesOnPage() {
 $storySubmitForm.on('submit', handleStorySubmit);
 
 /** get data from form input and put new story on page  */
-async function handleStorySubmit(evt){
+async function handleStorySubmit(evt) {
   evt.preventDefault();
   // call when user submits form
   // get the data from the form
@@ -65,17 +65,16 @@ async function handleStorySubmit(evt){
   const newStory = await storyList.addStory(currentUser, storyData);
 
   // put that new story on the page
-  storyList.stories.unshift(newStory);
   putStoriesOnPage();
 }
 
 /**gets data from story form submit and return a story object in the form
  * {title, author, url}
  */
-function getStoryFormInputs(){
-  const title = $storySubmitFields.eq(0).val();
+function getStoryFormInputs() {
+  const title = $storySubmitFields.eq(0).val(); //TODO: avoid hardcoding the order
   const author = $storySubmitFields.eq(1).val();
   const url = $storySubmitFields.eq(2).val();
 
-  return {title,author,url}
+  return { title, author, url };
 }

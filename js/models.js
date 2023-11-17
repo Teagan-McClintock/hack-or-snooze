@@ -24,7 +24,7 @@ class Story {
   /** Parses hostname out of URL and returns it. */
 
   getHostName() {
-    return new URL(this.url).hostname
+    return new URL(this.url).hostname;
     //return this.url; //should be just the hostname!!
   }
 }
@@ -73,23 +73,23 @@ class StoryList {
    * Returns the new Story instance
    */
 
-  async addStory( user, newStory ) {
+  async addStory(user, newStory) {
     // UNIMPLEMENTED: complete this function!
     // const storyString = JSON.stringify(newStory);
     // console.log('addStory storyString', storyString);
 
     console.log('addStory user', user);
     const body = {
-            token: user.loginToken,
-            story: newStory
-          }
+      token: user.loginToken,
+      story: newStory
+    };
 
     const storyResponse = await fetch(`${BASE_URL}/stories/`, {
       method: "POST",
       body: JSON.stringify(body),
-      headers: {"Content-Type": "application/json"}
+      headers: { "Content-Type": "application/json" }
     });
-    console.log('addStory storyResponse',storyResponse);
+    console.log('addStory storyResponse', storyResponse);
 
     const storyReturnObject = await storyResponse.json();
     console.log('storyReturnObject!?', storyReturnObject);
@@ -229,17 +229,36 @@ class User {
   /**for current user, make API call to add the passed-in story to that
    * user's array of favorites */
   async addFavorite(story) {
-    const body = {token: this.loginToken};
-
-    console.log("stringify body ", JSON.stringify(body));
+    const body = { token: this.loginToken };
 
     const response = await fetch(
-        `${BASE_URL}/users/${this.username}/favorites/${story.storyId}`, {
-        method: "POST",
-        body: JSON.stringify(body),
-        headers: {"Content-Type": "application/json"}
-      });
-    console.log("response ",response);
+      `${BASE_URL}/users/${this.username}/favorites/${story.storyId}`, {
+      method: "POST",
+      body: JSON.stringify(body),
+      headers: { "Content-Type": "application/json" }
+    });
+
+    //does't need to return anything because API handles the actual favoriting
+    console.log("response ", response);
+    console.log("reponse.json ", await response.json());
+  }
+
+  /**for current user, make API call to remove the passed-in story from that
+    * user's array of favorites */
+  async removeFavorite(story) {
+    const body = { token: this.loginToken };
+
+    const response = await fetch(
+      `${BASE_URL}/users/${this.username}/favorites/${story.storyId}`, {
+      method: "DELETE",
+      body: JSON.stringify(body),
+      headers: { "Content-Type": "application/json" }
+    });
+
+    //does't need to return anything because API handles the actual favoriting
+    console.log("response ", response);
     console.log("reponse.json ", await response.json());
   }
 }
+
+

@@ -45,6 +45,9 @@ async function start() {
 
   // if we got a logged-in user
   if (currentUser) updateUIOnUserLogin();
+
+  //FIXME: debugging junk
+  console.log('start',currentUser);
 }
 
 // Once the DOM is entirely loaded, begin the app

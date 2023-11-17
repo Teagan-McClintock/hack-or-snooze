@@ -24,8 +24,9 @@ function generateStoryMarkup(story) {
   // console.debug("generateStoryMarkup", story);
 
   const hostName = story.getHostName();
+  const favClassText = isFav(story) ? 'class="favorite"' : "";
   return $(`
-      <li id="${story.storyId}">
+      <li id="${story.storyId}" ${favClassText}>
         <a href="${story.url}" target="a_blank" class="story-link">
           ${story.title}
         </a>
@@ -34,6 +35,19 @@ function generateStoryMarkup(story) {
         <small class="story-user">posted by ${story.username}</small>
       </li>
     `);
+}
+
+
+/**Takes in a story and identifies whether it is a favorite of the current
+ * user */
+
+function isFav(story){
+  for (let favStory of currentUser.favorites){
+    if (favStory.storyId === story.storyId){
+      return true;
+    }
+  }
+  return false;
 }
 
 /**Generates and returns html text for favorite and remove favorite buttons */
@@ -47,7 +61,7 @@ function generateFavoriteButtons() {
 /** Gets list of stories from server, generates their HTML, and puts on page. */
 
 function putStoriesOnPage() {
-  console.debug("putStoriesOnPage");
+  //console.debug("putStoriesOnPage");
 
   $allStoriesList.empty();
 

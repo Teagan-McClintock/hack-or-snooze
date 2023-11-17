@@ -52,7 +52,7 @@ function generateStoryMarkup(story) {
 
 function isFav(story) {
   for (let favStory of currentUser.favorites) {
-    if (favStory.storyId === story.storyId) {
+    if (favStory.storyId === story.storyId) { //could do with .some()
       return true;
     }
   }
@@ -68,12 +68,12 @@ function isFav(story) {
 function generateFavoriteButtons(isFavorite) {
   if (isFavorite) {
     return $(`
-   <button class = "favorite-button hidden">Favorite</button>
-   <button class = "remove-favorite-button">Remove Favorite</button>`);
+   <button class="favorite-button hidden">Favorite</button>
+   <button class="remove-favorite-button">Remove Favorite</button>`);
   }
   return $(`
-  <button class = "favorite-button">Favorite</button>
-  <button class = "remove-favorite-button hidden">Remove Favorite</button>`);
+  <button class="favorite-button">Favorite</button>
+  <button class="remove-favorite-button hidden">Remove Favorite</button>`);
 }
 
 /** Gets list of stories from server, generates their HTML, and puts on page. */
@@ -87,7 +87,7 @@ function putStoriesOnPage() {
   for (let story of storyList.stories) {
     const $story = generateStoryMarkup(story);
     const isFavorite = isFav(story);
-    const $favButtons = generateFavoriteButtons(isFavorite);
+    const $favButtons = generateFavoriteButtons(isFavorite); //consider moving into story markup
     $story.append($favButtons);
     console.log($favButtons);
 
@@ -116,7 +116,7 @@ $storiesContainer.on("click", ".favorite-button", handleFavoriteClick);
 /** Makes a call to add favorite and update currentUser from API response.
  * Also adds a star and toggles the buttons' visibility.
 */
-async function handleFavoriteClick(evt) {
+async function handleFavoriteClick(evt) { //consider renaming to handleAddFavoriteClick
   const $clickTarget = $(evt.target);
   const $storyTarget = $clickTarget.closest("li");
   const $favStar = $('<i class="bi bi-star-fill"></i>');
@@ -126,7 +126,7 @@ async function handleFavoriteClick(evt) {
   $storyTarget.append($favStar);
   const storyId = $storyTarget.attr("id");
   const story = await Story.getStoryFromId(storyId);
-  const userJson = await currentUser.addFavorite(story);
+  const userJson = await currentUser.addFavorite(story); //destructure?
   refreshUser(userJson);
 }
 
@@ -138,7 +138,7 @@ $storiesContainer.on("click", ".remove-favorite-button", handleRemoveFavoriteCli
 async function handleRemoveFavoriteClick(evt) {
   const $clickTarget = $(evt.target);
   const $storyTarget = $clickTarget.closest("li");
-
+  //could split in two below here
   toggleButtons($storyTarget);
 
   const storyId = $storyTarget.attr("id");
@@ -151,7 +151,7 @@ async function handleRemoveFavoriteClick(evt) {
  * favorite/remove favorite buttons tied to it. Also removes a star if one is
  * found.
  */
-function toggleButtons($li) {
+function toggleButtons($li) { //rename parameter to $story
 
   const $buttons = $li.find('button');
   console.log('toggleButtons $buttons', $buttons);
@@ -161,7 +161,7 @@ function toggleButtons($li) {
   for (let $button of ourButtons) {
 
     if ($button.hasClass('hidden')) {
-      $button.removeClass('hidden');
+      $button.removeClass('hidden'); //look into: show, hide, and toggle methods
     }
     else {
       $button.addClass('hidden');

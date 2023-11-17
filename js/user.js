@@ -84,9 +84,10 @@ async function checkForRememberedUser() {
 
 /** Update the currentUser global variable with the latest API user state */
 
+//TODO: move this to User class
 async function refreshUser(responseJson){
   //debugger;
-  const userData = responseJson.user;
+  const userData = responseJson.user; //strongly consider renaming to user
   currentUser.favorites = userData.favorites.map(s => new Story(s));
 }
 

@@ -236,7 +236,7 @@ class User {
   }
 
 
-
+  //TODO: Update docstring w/ return value for add/removeFav
   /**for current user, make API call to add the passed-in story to that
    * user's array of favorites */
   async addFavorite(story) {
@@ -251,9 +251,9 @@ class User {
 
     //use the response from earlier get the user object from that, pass it
     // to a dedicated function which will refresh the currentuser state
-    let responseJson = await response.json();
+    let responseJson = await response.json(); //TODO: try to rename w/o response or Json in variable name
     return responseJson;
-    //does't need to return anything because API handles the actual favoriting
+
   }
 
   /**for current user, make API call to remove the passed-in story from that
@@ -268,7 +268,7 @@ class User {
       headers: { "Content-Type": "application/json" }
     });
 
-    //does't need to return anything because API handles the actual favoriting
+
     let responseJson = await response.json();
     return responseJson;
   }

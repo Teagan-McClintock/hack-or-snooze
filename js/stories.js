@@ -61,10 +61,24 @@ function putStoriesOnPage() {
 
   $allStoriesList.show();
 }
+/** Hide stories list and display only favorite stories */
 
-$allStoriesList.on("click", ".favorite-button", handleFavoriteClick);
+function putFavStoriesOnPage(){
+  $favStoriesList.empty();
+  for (let story of currentUser.favorites) {
+    const $story = generateStoryMarkup(story);
+    const $favButtons = generateFavoriteButtons();
+    $story.append($favButtons);
+    $favStoriesList.append($story);
+  }
 
+}
+
+$storiesContainer.on("click", ".favorite-button", handleFavoriteClick);
+
+/** Makes a call to add favorite */
 async function handleFavoriteClick(evt){
+  //TODO: want to add hide button when appropriate
   const $clickTarget = $(evt.target);
   const $storyTarget = $clickTarget.closest("li");
   const storyId = $storyTarget.attr("id");
@@ -72,7 +86,17 @@ async function handleFavoriteClick(evt){
   await currentUser.addFavorite(story);
 }
 
-//$allStoriesList.on("click", ".remove-favorite-button", handleRemoveFavoriteClick);
+$storiesContainer.on("click", ".remove-favorite-button", handleRemoveFavoriteClick);
+
+/** Makes a call to add favorite */
+async function handleRemoveFavoriteClick(evt){
+  //TODO: want to add hide button when appropriate
+  const $clickTarget = $(evt.target);
+  const $storyTarget = $clickTarget.closest("li");
+  const storyId = $storyTarget.attr("id");
+  const story = Story.getStoryFromId(storyId);
+  await currentUser.removeFavorite(story);
+}
 
 $storySubmitForm.on('submit', handleStorySubmit);
 

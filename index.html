@@ -34,6 +34,9 @@
   <div class="navbar-brand">
     <a class="nav-link" href="#" id="nav-all">Hack or Snooze</a>
   </div>
+  <div class="nav-center">
+    <a class="nav-link" href="#" id="fav-stories-button">Favorites</a>
+  </div>
   <div class="nav-right">
     <a class="nav-link" href="#" id="story-submit">Submit a story</a>
     <a class="nav-link" href="#" id="nav-login">login/signup</a>
@@ -47,6 +50,10 @@
 
   <!-- loading message (removed by JS after stories loaded) -->
   <div id="stories-loading-msg">Loading&hellip;</div>
+
+  <!-- List of all favorited stories -->
+  <ol id="fav-stories-list" class="stories-list hidden">
+  </ol>
 
   <!-- List of all stories -->
   <ol id="all-stories-list" class="stories-list"></ol>

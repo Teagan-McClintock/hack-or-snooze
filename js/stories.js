@@ -6,6 +6,7 @@ let storyList;
 /** Get and show stories when site first loads. */
 
 async function getAndShowStoriesOnStart() {
+  console.debug(getAndShowStoriesOnStart);
   storyList = await StoryList.getStories();
   $storiesLoadingMsg.remove();
 
@@ -35,6 +36,14 @@ function generateStoryMarkup(story) {
     `);
 }
 
+/**Generates and returns html text for favorite and remove favorite buttons */
+
+function generateFavoriteButtons() {
+  return $(`
+  <button class = "favorite-button">Favorite</button>
+  <button class = "remove-favorite-button">Remove Favorite</button>`);
+}
+
 /** Gets list of stories from server, generates their HTML, and puts on page. */
 
 function putStoriesOnPage() {
@@ -45,11 +54,25 @@ function putStoriesOnPage() {
   // loop through all of our stories and generate HTML for them
   for (let story of storyList.stories) {
     const $story = generateStoryMarkup(story);
+    const $favButtons = generateFavoriteButtons();
+    $story.append($favButtons);
     $allStoriesList.append($story);
   }
 
   $allStoriesList.show();
 }
+
+$allStoriesList.on("click", ".favorite-button", handleFavoriteClick);
+
+async function handleFavoriteClick(evt){
+  const $clickTarget = $(evt.target);
+  const $storyTarget = $clickTarget.closest("li");
+  const storyId = $storyTarget.attr("id");
+  const story = Story.getStoryFromId(storyId);
+  await currentUser.addFavorite(story);
+}
+
+//$allStoriesList.on("click", ".remove-favorite-button", handleRemoveFavoriteClick);
 
 $storySubmitForm.on('submit', handleStorySubmit);
 

@@ -27,6 +27,15 @@ class Story {
     return new URL(this.url).hostname;
     //return this.url; //should be just the hostname!!
   }
+
+  /** Takes in a storyID and returns the story object associated with that ID */
+  static getStoryFromId(storyId){
+    console.log("passed-in ID ", storyId);
+    const filteredToFavStory = storyList.stories.filter(
+      story => story.storyId === storyId);
+    console.log("story from ID ", filteredToFavStory[0]);
+    return filteredToFavStory[0];
+  }
 }
 
 
